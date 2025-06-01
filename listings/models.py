@@ -13,3 +13,10 @@ class Listing(models.Model):
 
     def __str__(self):
         return self.title
+
+    @property
+    def average_rating(self):
+        reviews = self.reviews.all()
+        if reviews.exists():
+            return round(sum(r.rating for r in reviews) / reviews.count(), 2)
+        return None

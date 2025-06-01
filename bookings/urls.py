@@ -9,17 +9,22 @@ from .views import (
     BookingConfirmDeclineView,
 )
 
+
 router = DefaultRouter()
-router.register(r'bookings', BookingViewSet)
+router.register(r'', BookingViewSet, basename='booking')
 
 urlpatterns = [
-    path('', include(router.urls)),  # Роутер с ViewSet
-    path('list/', BookingListCreateView.as_view(), name='booking-list-create'),  # отдельный листинг
+
+    path('', include(router.urls)),
+
+
+    path('list/', BookingListCreateView.as_view(), name='booking-list-create'),
     path('my-bookings/', UserBookingsView.as_view(), name='user-bookings'),
     path('<int:pk>/status/', BookingStatusUpdateView.as_view(), name='booking-status-update'),
     path('<int:pk>/cancel/', BookingCancelView.as_view(), name='booking-cancel'),
     path('<int:pk>/confirm-decline/', BookingConfirmDeclineView.as_view(), name='booking-confirm-decline'),
 ]
+
 
 
 

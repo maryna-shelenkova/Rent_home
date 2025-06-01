@@ -2,13 +2,16 @@ import django_filters
 from .models import Listing
 
 class ListingFilter(django_filters.FilterSet):
-    min_price = django_filters.NumberFilter(field_name='price', lookup_expr='gte')  # Цена от
-    max_price = django_filters.NumberFilter(field_name='price', lookup_expr='lte')  # Цена до
-    min_rooms = django_filters.NumberFilter(field_name='rooms', lookup_expr='gte')  # Кол-во комнат от
-    max_rooms = django_filters.NumberFilter(field_name='rooms', lookup_expr='lte')  # Кол-во комнат до
-    location = django_filters.CharFilter(lookup_expr='icontains')  # Частичный поиск по местоположению
-    property_type = django_filters.CharFilter(lookup_expr='iexact')  # Тип жилья
+    price_min = django_filters.NumberFilter(field_name="price", lookup_expr='gte')
+    price_max = django_filters.NumberFilter(field_name="price", lookup_expr='lte')
+    rooms_min = django_filters.NumberFilter(field_name="rooms", lookup_expr='gte')
+    rooms_max = django_filters.NumberFilter(field_name="rooms", lookup_expr='lte')
+    location = django_filters.CharFilter(field_name="location", lookup_expr='icontains')
+    type = django_filters.CharFilter(field_name="type", lookup_expr='iexact')
 
     class Meta:
         model = Listing
-        fields = ['min_price', 'max_price', 'min_rooms', 'max_rooms', 'location', 'property_type']
+        fields = ['price_min', 'price_max', 'rooms_min', 'rooms_max', 'location', 'type']
+
+
+

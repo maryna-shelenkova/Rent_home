@@ -10,13 +10,10 @@ class IsReviewAuthorOrReadOnly(permissions.BasePermission):
 
 
 class IsOwnerOrReadOnly(permissions.BasePermission):
-    """
-    Позволяет редактировать объект только его владельцу,
-    а для остальных только чтение.
-    """
+
 
     def has_object_permission(self, request, view, obj):
         if request.method in permissions.SAFE_METHODS:
             return True
-        return obj.user == request.user  # если поле user
+        return obj.user == request.user
 

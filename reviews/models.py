@@ -11,8 +11,8 @@ class Review(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        unique_together = ('user', 'listing')  # Один отзыв на одно объявление от одного пользователя
-        ordering = ['-created_at']  # Новые отзывы первыми (по желанию)
+        unique_together = ('user', 'listing')
+        ordering = ['-created_at']
 
     def __str__(self):
         return f'Review by {self.user.username} for {self.listing.title}'
