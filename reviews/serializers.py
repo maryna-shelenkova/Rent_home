@@ -6,7 +6,7 @@ class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
         fields = '__all__'
-        read_only_fields = ('user',)
+        read_only_fields = ('user', 'listing')
 
     def create(self, validated_data):
         user = self.context['request'].user
@@ -21,6 +21,12 @@ class ReviewSerializer(serializers.ModelSerializer):
             }
         )
         return review
+
+    def update(self, instance, validated_data):
+        instance.rating = validated_data.get('rating', instance.rating)
+        instance.comment = validated_data.get('comment', instance.comment)
+        instance.save()
+        return instance
 
 
 class ListingSerializer(serializers.ModelSerializer):

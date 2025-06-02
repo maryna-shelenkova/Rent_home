@@ -1,10 +1,11 @@
 from rest_framework import generics, permissions
 from .models import Review
 from .serializers import ReviewSerializer
-from rest_framework import viewsets, permissions
+from rest_framework import viewsets
 from .permissions import IsOwnerOrReadOnly
 from bookings.models import Booking
 from rest_framework.exceptions import PermissionDenied
+from .permissions import IsReviewAuthorOrReadOnly
 
 class ReviewListCreateView(generics.ListCreateAPIView):
     serializer_class = ReviewSerializer
@@ -34,7 +35,7 @@ class ReviewListCreateView(generics.ListCreateAPIView):
 class ReviewViewSet(viewsets.ModelViewSet):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsReviewAuthorOrReadOnly]
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)

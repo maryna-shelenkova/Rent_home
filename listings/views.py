@@ -9,6 +9,8 @@ from .filters import ListingFilter
 from .permissions import IsOwnerOrReadOnly, IsLandlordOrReadOnly
 from rest_framework.decorators import action
 from rest_framework import status
+from .permissions import IsLandlordOrReadOnly
+
 
 
 class ListingViewSet(viewsets.ModelViewSet):

@@ -1,0 +1,168 @@
+{
+  "info": {
+    "name": "Rent Home API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_postman_id": "a1234567-b89c-4d00-0000-000000000001"
+  },
+  "item": [
+    {
+      "name": "🔐 Auth / Регистрация",
+      "item": [
+        {
+          "name": "Регистрация",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"testuser\",\n  \"email\": \"test@example.com\",\n  \"password\": \"TestPass123\",\n  \"role\": \"landlord\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": { "raw": "http://localhost:8000/api/register/", "host": ["http://localhost:8000"], "path": ["api", "register/"] }
+          }
+        },
+        {
+          "name": "Получить токен (вход)",
+          "request": {
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"test@example.com\",\n  \"password\": \"TestPass123\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": { "raw": "http://localhost:8000/api/token/", "host": ["http://localhost:8000"], "path": ["api", "token/"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "🏠 Объявления",
+      "item": [
+        {
+          "name": "Создание объявления",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}", "type": "text" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Gemütliche Wohnung in Berlin\",\n  \"description\": \"Voll möbliert, in der Nähe der U-Bahn.\",\n  \"location\": \"Berlin\",\n  \"price\": 850,\n  \"rooms\": 2,\n  \"property_type\": \"Wohnung\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": { "raw": "http://localhost:8000/api/listings/", "host": ["http://localhost:8000"], "path": ["api", "listings/"] }
+          }
+        },
+        {
+          "name": "Редактирование объявления",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}", "type": "text" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"price\": 900 }",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": { "raw": "http://localhost:8000/api/listings/1/", "host": ["http://localhost:8000"], "path": ["api", "listings", "1/"] }
+          }
+        },
+        {
+          "name": "Удаление объявления",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}", "type": "text" }],
+            "url": { "raw": "http://localhost:8000/api/listings/1/", "host": ["http://localhost:8000"], "path": ["api", "listings", "1/"] }
+          }
+        },
+        {
+          "name": "Переключение активности",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}", "type": "text" }],
+            "url": { "raw": "http://localhost:8000/api/listings/1/toggle_active/", "host": ["http://localhost:8000"], "path": ["api", "listings", "1", "toggle_active/"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "🔍 Поиск и фильтрация",
+      "item": [
+        {
+          "name": "Поиск",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "http://localhost:8000/api/listings/?search=Gemütlich", "host": ["http://localhost:8000"], "path": ["api", "listings"], "query": [{ "key": "search", "value": "Gemütlich" }] }
+          }
+        },
+        {
+          "name": "Фильтрация",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "http://localhost:8000/api/listings/?min_price=500&max_price=1000&location=Berlin&min_rooms=1&max_rooms=3&property_type=Wohnung",
+              "host": ["http://localhost:8000"],
+              "path": ["api", "listings"],
+              "query": [
+                { "key": "min_price", "value": "500" },
+                { "key": "max_price", "value": "1000" },
+                { "key": "location", "value": "Berlin" },
+                { "key": "min_rooms", "value": "1" },
+                { "key": "max_rooms", "value": "3" },
+                { "key": "property_type", "value": "Wohnung" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Сортировка по цене (по убыванию)",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "http://localhost:8000/api/listings/?ordering=-price", "host": ["http://localhost:8000"], "path": ["api", "listings"], "query": [{ "key": "ordering", "value": "-price" }] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "📅 Бронирования",
+      "item": [
+        {
+          "name": "Создание бронирования",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}", "type": "text" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"listing\": 1, \"start_date\": \"2025-06-01\", \"end_date\": \"2025-06-05\" }",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": { "raw": "http://localhost:8000/api/bookings/", "host": ["http://localhost:8000"], "path": ["api", "bookings/"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "⭐ Отзывы",
+      "item": [
+        {
+          "name": "Оставить отзыв",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}", "type": "text" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"listing\": 1, \"rating\": 4, \"comment\": \"Sehr schöne Wohnung und ruhige Gegend.\" }",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": { "raw": "http://localhost:8000/api/reviews/", "host": ["http://localhost:8000"], "path": ["api", "reviews/"] }
+          }
+        },
+        {
+          "name": "Отзывы по объявлению",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "http://localhost:8000/api/listings/1/reviews/", "host": ["http://localhost:8000"], "path": ["api", "listings", "1", "reviews/"] }
+          }
+        }
+      ]
+    }
+  ],
+  "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "", "type": "string" }] }
+}
