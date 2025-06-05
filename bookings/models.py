@@ -11,7 +11,7 @@ class Booking(models.Model):
     start_date = models.DateField()
     end_date = models.DateField()
 
-    # Статус бронирования
+  
     STATUS_CHOICES = [
         ('pending', 'Pending'),
         ('confirmed', 'Confirmed'),
